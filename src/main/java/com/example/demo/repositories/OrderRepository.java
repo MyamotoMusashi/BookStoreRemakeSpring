@@ -2,6 +2,7 @@ package com.example.demo.repositories;
 
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Order;
+import com.example.demo.entities.OrderItem;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,11 +11,7 @@ import java.util.List;
 @Repository
 public class OrderRepository {
     public ArrayList<Order> orderList = new ArrayList<Order>();
-
-    Order order1 = new Order(orderList.size()+1, 1);
-    Order order2 = new Order(orderList.size()+1, 1);
-    Order order3 = new Order(orderList.size()+1, 2);
-    Order order4 = new Order(orderList.size()+1, 2);
+    public ArrayList<OrderItem> itemsOrdered = new ArrayList<OrderItem>();
 
     Book book2 = new Book(
             2,
@@ -26,14 +23,17 @@ public class OrderRepository {
     );
 
     public OrderRepository() {
+        this.itemsOrdered.add(new OrderItem(book2, 2));
+        Order order1 = new Order(orderList.size()+1, 1, itemsOrdered);
         this.orderList.add(order1);
-        this.order2.booksOrdered.add(book2);
-        this.orderList.add(order2);
-        this.orderList.add(order3);
-        this.orderList.add(order4);
     }
 
     public List<Order> getOrdersByUserId(Integer id) {
+        System.out.println(this.orderList
+                .stream()
+                .filter(o -> o.userId == id)
+                .toList());
+
         return this.orderList
                 .stream()
                 .filter(o -> o.userId == id)
@@ -50,6 +50,9 @@ public class OrderRepository {
 
     public Boolean addOrder(Order order) {
         order.id = this.orderList.size() + 1;
+            for (OrderItem orderItem: order.itemsOrdered) {
+                System.out.println(orderItem);
+            }
         return this.orderList.add(order);
     }
 }

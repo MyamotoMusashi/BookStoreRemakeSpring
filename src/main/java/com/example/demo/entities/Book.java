@@ -18,4 +18,12 @@ public class Book {
         this.summary = summary;
         this.coverUrl = coverUrl;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }
