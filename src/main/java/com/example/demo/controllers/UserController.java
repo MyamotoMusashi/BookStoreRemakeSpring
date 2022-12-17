@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 public class UserController {
     private final UserRepository userRepository;
@@ -21,8 +21,17 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public Boolean registerUser(@RequestBody User user){
-        return this.userRepository.registerUser(user);
+    public User registerUser(@RequestParam(name = "type", required = false) String type, @RequestBody User user){
+        System.out.println(user);
+        if (type.equals("user")) {
+            return this.userRepository.registerUser(user);
+        }
+
+        if (type.equals("guest")) {
+            return this.userRepository.registerGuest(user);
+        }
+
+        return null;
     }
 
     @GetMapping("/users/{id}")

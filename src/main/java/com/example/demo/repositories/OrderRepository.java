@@ -3,6 +3,7 @@ package com.example.demo.repositories;
 import com.example.demo.entities.Book;
 import com.example.demo.entities.Order;
 import com.example.demo.entities.OrderItem;
+import com.example.demo.entities.OrderStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -48,11 +49,34 @@ public class OrderRepository {
                 .orElse(null);
     }
 
+    public List<Order> getOrdersByStatus(OrderStatus orderStatus) {
+        return this.orderList
+                .stream()
+                .filter((o -> o.status == orderStatus))
+                .toList();
+    }
+
     public Boolean addOrder(Order order) {
         order.id = this.orderList.size() + 1;
             for (OrderItem orderItem: order.itemsOrdered) {
                 System.out.println(orderItem);
             }
         return this.orderList.add(order);
+    }
+
+    public Order updateOrderById(Order order) {
+        Order orderToBeUpdated = this.orderList
+                    .stream()
+                    .filter((o -> o.id == order.id))
+                    .findFirst()
+                    .orElse(null);
+
+        if (orderToBeUpdated != null) {
+            orderToBeUpdated.status = order.status;
+
+            return  orderToBeUpdated;
+        }
+
+        return  null;
     }
 }

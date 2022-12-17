@@ -10,6 +10,7 @@ public class Order {
     public Double totalPrice;
     public List<OrderItem> itemsOrdered;
     public Integer userId;
+    public OrderStatus status;
 
     Book book1 = new Book(
             1,
@@ -34,11 +35,13 @@ public class Order {
     OrderItem orderItem2 = new OrderItem(book2, 2);
 
     public Order(Integer id, Integer userId, List<OrderItem> itemsOrdered){
+        this.id = id;
         this.dateCreated = "10-03-2022";
         this.shippingInformation = new ShippingInformation("laino", "laino2", "bulgaria", "sofia", "8700");
         this.itemsOrdered = itemsOrdered;
         this.totalPrice = this.calculateTotalPrice();
         this.userId = userId;
+        this.status = OrderStatus.NotProcessed;
     }
 
     public Double calculateTotalPrice() {

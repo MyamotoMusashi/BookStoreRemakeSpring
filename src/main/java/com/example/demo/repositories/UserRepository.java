@@ -90,10 +90,22 @@ public class UserRepository {
                 .orElse(null);
     }
 
-    public Boolean registerUser(User user){
+    public User registerUser(User user) {
+        System.out.println(user);
         user.id = this.userList.size() + 1;
         user.role = "user";
-        return this.userList.add(user);
+        this.userList.add(user);
+
+        return user;
+    }
+
+    public User registerGuest(User user) {
+        user.id = this.userList.size() + 1;
+        user.role = "guest";
+        user.username = "guest-" + user.id;
+        this.userList.add(user);
+
+        return user;
     }
 
     public User authenticateUser(String username, String password) {
