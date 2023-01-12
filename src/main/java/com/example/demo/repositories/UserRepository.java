@@ -103,6 +103,7 @@ public class UserRepository {
         user.id = this.userList.size() + 1;
         user.role = "guest";
         user.username = "guest-" + user.id;
+        user.shippingInformation = new ShippingInformation("", "", "", "", "");
         this.userList.add(user);
 
         return user;
