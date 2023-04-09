@@ -1,15 +1,17 @@
-package com.example.demo.entities;
+package com.example.demo.model;
+
+import com.example.demo.model.service.BookServiceModel;
 
 public class OrderItem {
     public String id;
-    public Book book;
+    public BookServiceModel book;
     public Integer quantity;
     public Double totalPrice;
 
-    public OrderItem(Book book, Integer quantity) {
+    public OrderItem(BookServiceModel book, Integer quantity) {
         this.book = book;
         this.quantity = quantity;
-        this.totalPrice = this.book.price * this.quantity;
+        this.totalPrice = this.book.getPrice() * this.quantity;
     }
 
     @Override

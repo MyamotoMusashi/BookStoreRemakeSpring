@@ -1,7 +1,7 @@
 package com.example.demo.repositories;
 
-import com.example.demo.entities.ShippingInformation;
-import com.example.demo.entities.User;
+import com.example.demo.model.ShippingInformation;
+import com.example.demo.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

@@ -1,25 +1,38 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Author;
-import com.example.demo.entities.Book;
-import com.example.demo.repositories.AuthorRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.dto.AuthorDTO;
+import com.example.demo.model.service.AuthorServiceModel;
+import com.example.demo.repositories.MyAuthorRepository;
+import com.example.demo.service.impl.AuthorServiceImpl;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
 public class AuthorController {
-    private final AuthorRepository authorRepository;
+    private final AuthorServiceImpl authorService;
+    private final ModelMapper modelMapper;
 
-    public AuthorController(AuthorRepository authorRepository){
-        this.authorRepository = authorRepository;
+    public AuthorController(AuthorServiceImpl authorService, ModelMapper modelMapper){
+        this.authorService = authorService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping(value = "/authors" , produces = "application/json")
-    public List<Author> getAllBooks() {
-        return this.authorRepository.getAuthors();
+    @GetMapping(value = "/authors")
+    public List<AuthorServiceModel> getAllAuthors() {
+        return this.authorService.getAuthors();
+    }
+
+    @PostMapping(value = "/authors")
+    public AuthorServiceModel postAuthor(@RequestBody AuthorDTO authorDTO){
+        return this.authorService.addAuthor(this.modelMapper.map(authorDTO, AuthorServiceModel.class));
+    }
+
+    @GetMapping(value = "/authors/{id}")
+    public AuthorServiceModel getAuthor(@PathVariable Long id){
+        System.out.println(id);
+        return this.authorService.getAuthorById(id);
     }
 }
